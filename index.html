@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXEVIBE // Designer Apparel & Shoes Outlet</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Canvas Confetti for Checkout Effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#ff007f',
+                            purple: '#7928ca',
+                            cyan: '#00f3ff',
+                            gold: '#ffd700',
+                            dark: '#090714',
+                            card: '#130f26'
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite alternate',
+                        'float': 'float 4s ease-in-out infinite',
+                        'gradient-x': 'gradientX 8s ease infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 15px rgba(255, 0, 127, 0.4), 0 0 30px rgba(0, 243, 255, 0.2)' },
+                            '100%': { boxShadow: '0 0 25px rgba(0, 243, 255, 0.6), 0 0 50px rgba(255, 0, 127, 0.4)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        gradientX: {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Neon Styling & Glassmorphism */
+        body {
+            background-color: #080612;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(19, 15, 38, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 0, 127, 0.6);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 15px 35px -10px rgba(255, 0, 127, 0.3), 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ff007f 0%, #a855f7 50%, #00f3ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(90deg, #ff007f, #7928ca, #00f3ff, #ff007f);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .neon-border:hover::after {
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080612;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2050;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff007f;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-brand-pink selection:text-white">
+
+    <!-- Background Ambient Neon Glows -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-brand-pink/20 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-1/3 right-10 w-[600px] h-[600px] bg-brand-cyan/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+    <div class="fixed top-2/3 left-10 w-[450px] h-[450px] bg-brand-purple/25 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+    <!-- Top Announcement Ticker -->
+    <div class="bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan text-white text-xs font-bold py-2 px-4 text-center tracking-widest uppercase overflow-hidden z-50">
+        <div class="inline-flex items-center space-x-6 animate-pulse">
+            <span><i class="fa-solid fa-bolt mr-1"></i> Flash Sale: Up to 60% OFF Luxury Apparel & Footwear</span>
+            <span class="hidden md:inline">•</span>
+            <span class="hidden md:inline"><i class="fa-solid fa-shield-halved mr-1"></i> 100% Verified Authentic Designer Gear</span>
+            <span class="hidden md:inline">•</span>
+            <span class="hidden md:inline"><i class="fa-solid fa-truck-fast mr-1"></i> Express Worldwide Delivery</span>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <a href="#" onclick="switchTab('index')" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-pink via-brand-purple to-brand-cyan flex items-center justify-center font-display font-black text-xl text-white shadow-lg shadow-brand-pink/30 group-hover:scale-105 transition-transform">
+                    LV
+                </div>
+                <div>
+                    <span class="font-display font-black text-2xl tracking-wider text-gradient">LUXEVIBE</span>
+                    <span class="block text-[9px] uppercase tracking-[0.3em] text-brand-cyan font-semibold -mt-1">Outlet Store</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 bg-white/5 p-1.5 rounded-full border border-white/10">
+                <button id="nav-index" onclick="switchTab('index')" class="nav-btn px-5 py-2 rounded-full font-semibold text-sm transition-all text-white bg-gradient-to-r from-brand-pink to-brand-purple shadow-md shadow-brand-pink/20">
+                    <i class="fa-solid fa-house mr-1.5"></i> Home
+                </button>
+                <button id="nav-product" onclick="switchTab('product')" class="nav-btn px-5 py-2 rounded-full font-semibold text-sm transition-all text-gray-300 hover:text-white hover:bg-white/10">
+                    <i class="fa-solid fa-tags mr-1.5"></i> Products Catalog
+                </button>
+                <button id="nav-style" onclick="switchTab('style')" class="nav-btn px-5 py-2 rounded-full font-semibold text-sm transition-all text-gray-300 hover:text-white hover:bg-white/10">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Lookbook & Style
+                </button>
+            </nav>
+
+            <!-- Right Header Actions -->
+            <div class="flex items-center space-x-3">
+                <!-- Search Toggle Quick Bar -->
+                <div class="relative hidden sm:block">
+                    <input type="text" id="header-search" oninput="handleHeaderSearch(this.value)" placeholder="Search LV, Gucci, Shoes..." class="bg-black/40 border border-white/15 focus:border-brand-pink rounded-full px-4 py-2 pl-9 text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-pink/40 w-44 lg:w-60 transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                </div>
+
+                <!-- Wishlist Icon -->
+                <button onclick="switchTab('product'); filterCategory('wishlist')" class="relative p-2.5 rounded-full bg-white/5 border border-white/10 hover:border-brand-pink hover:text-brand-pink transition-all text-gray-300">
+                    <i class="fa-solid fa-heart text-base"></i>
+                    <span id="wishlist-counter" class="absolute -top-1 -right-1 bg-brand-pink text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+
+                <!-- Shopping Cart Drawer Trigger Button -->
+                <button onclick="toggleCartDrawer(true)" class="relative flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-brand-purple to-brand-pink hover:brightness-110 transition-all font-bold text-xs text-white shadow-lg shadow-brand-purple/40">
+                    <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    <span class="hidden sm:inline">Cart</span>
+                    <span id="cart-counter" class="bg-white text-brand-purple font-black text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-white/10 z-40 px-6 py-2.5 flex justify-around items-center">
+        <button onclick="switchTab('index')" class="flex flex-col items-center text-xs font-semibold text-gray-300 hover:text-brand-pink">
+            <i class="fa-solid fa-house text-lg mb-0.5"></i> Home
+        </button>
+        <button onclick="switchTab('product')" class="flex flex-col items-center text-xs font-semibold text-gray-300 hover:text-brand-pink">
+            <i class="fa-solid fa-tags text-lg mb-0.5"></i> Shop
+        </button>
+        <button onclick="switchTab('style')" class="flex flex-col items-center text-xs font-semibold text-gray-300 hover:text-brand-pink">
+            <i class="fa-solid fa-sparkles text-lg mb-0.5"></i> Lookbook
+        </button>
+        <button onclick="toggleCartDrawer(true)" class="flex flex-col items-center text-xs font-semibold text-gray-300 hover:text-brand-pink relative">
+            <i class="fa-solid fa-bag-shopping text-lg mb-0.5"></i> Cart
+            <span id="mobile-cart-badge" class="absolute -top-1 -right-2 bg-brand-pink text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow z-10">
+
+        <!-- ================= SECTION 1: INDEX / HOME HERO PAGE ================= -->
+        <section id="section-index" class="transition-opacity duration-500">
+            
+            <!-- Hero Showcase -->
+            <div class="relative py-12 lg:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-pink/30 text-brand-pink font-semibold text-xs uppercase tracking-widest shadow-md">
+                            <i class="fa-solid fa-fire text-brand-pink animate-bounce"></i> 2026 High Fashion Outlet Release
+                        </div>
+                        
+                        <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl leading-tight tracking-tight">
+                            WEAR THE <span class="text-gradient">ULTIMATE</span> LUXURY STATUS.
+                        </h1>
+                        
+                        <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                            Discover authentic designer apparel and footwear from <strong class="text-white font-semibold">Louis Vuitton, Gucci, Prada & Chrome Hearts</strong>. Unbeatable luxury prices with certified authenticity.
+                        </p>
+
+                        <!-- Brand Pills Marquee/Grid -->
+                        <div class="pt-2 flex flex-wrap justify-center lg:justify-start gap-3">
+                            <span onclick="switchTab('product'); filterBrand('Louis Vuitton')" class="cursor-pointer glass-card px-4 py-2 rounded-2xl border border-white/10 hover:border-brand-pink text-xs font-extrabold tracking-wider uppercase flex items-center gap-2 hover:scale-105 transition-all">
+                                <span class="w-2 h-2 rounded-full bg-brand-pink"></span> LOUIS VUITTON
+                            </span>
+                            <span onclick="switchTab('product'); filterBrand('Gucci')" class="cursor-pointer glass-card px-4 py-2 rounded-2xl border border-white/10 hover:border-brand-cyan text-xs font-extrabold tracking-wider uppercase flex items-center gap-2 hover:scale-105 transition-all">
+                                <span class="w-2 h-2 rounded-full bg-brand-cyan"></span> GUCCI
+                            </span>
+                            <span onclick="switchTab('product'); filterBrand('Prada')" class="cursor-pointer glass-card px-4 py-2 rounded-2xl border border-white/10 hover:border-brand-purple text-xs font-extrabold tracking-wider uppercase flex items-center gap-2 hover:scale-105 transition-all">
+                                <span class="w-2 h-2 rounded-full bg-brand-purple"></span> PRADA
+                            </span>
+                            <span onclick="switchTab('product'); filterBrand('Chrome Hearts')" class="cursor-pointer glass-card px-4 py-2 rounded-2xl border border-white/10 hover:border-brand-gold text-xs font-extrabold tracking-wider uppercase flex items-center gap-2 hover:scale-105 transition-all">
+                                <span class="w-2 h-2 rounded-full bg-brand-gold"></span> CHROME HEARTS
+                            </span>
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <button onclick="switchTab('product')" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan font-extrabold text-sm uppercase tracking-wider text-white shadow-xl shadow-brand-pink/30 hover:scale-105 transition-transform flex items-center justify-center gap-3">
+                                <span>Explore Designer Catalog</span>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
+                            <button onclick="switchTab('style')" class="w-full sm:w-auto px-8 py-4 rounded-full glass-panel hover:bg-white/10 font-bold text-sm tracking-wider text-white border border-white/20 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-glasses text-brand-cyan"></i>
+                                <span>View Outfit Lookbook</span>
+                            </button>
+                        </div>
+
+                        <!-- Trust Stats -->
+                        <div class="pt-8 grid grid-cols-3 gap-4 border-t border-white/10">
+                            <div>
+                                <p class="font-display font-black text-2xl text-gradient-gold">100%</p>
+                                <p class="text-xs text-gray-400">Authentic Guarantee</p>
+                            </div>
+                            <div>
+                                <p class="font-display font-black text-2xl text-brand-cyan">UP TO 60%</p>
+                                <p class="text-xs text-gray-400">Retail Outlet Discount</p>
+                            </div>
+                            <div>
+                                <p class="font-display font-black text-2xl text-brand-pink">24/7</p>
+                                <p class="text-xs text-gray-400">VIP Client Support</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual Card Stack -->
+                    <div class="lg:col-span-5 relative flex justify-center">
+                        <div class="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden glass-card p-3 shadow-2xl shadow-brand-pink/20 animate-float">
+                            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800&auto=format&fit=crop&q=80" alt="Luxury Streetwear" class="w-full h-full object-cover rounded-2xl">
+                            
+                            <!-- Overlay Neon Badge -->
+                            <div class="absolute top-6 left-6 glass-panel px-4 py-2 rounded-2xl border border-white/20 shadow-lg">
+                                <span class="text-xs text-gray-300 block font-semibold">Featured Grail</span>
+                                <span class="text-sm font-black text-brand-cyan">Chrome Hearts Leather Jacket</span>
+                            </div>
+
+                            <div class="absolute bottom-6 inset-x-6 glass-panel p-4 rounded-2xl border border-white/20 flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs text-gray-400 line-through">$2,800.00</p>
+                                    <p class="text-xl font-black text-brand-pink">$1,450.00 <span class="text-xs text-brand-gold font-bold">(-48%)</span></p>
+                                </div>
+                                <button onclick="quickAdd(2)" class="px-4 py-2 rounded-xl bg-brand-pink text-white font-bold text-xs hover:bg-brand-purple transition-colors">
+                                    <i class="fa-solid fa-cart-plus mr-1"></i> Grab Deal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Hot Brands Carousel Banner -->
+            <div class="py-10 bg-black/40 border-y border-white/10 my-12">
+                <div class="max-w-7xl mx-auto px-4 text-center">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] text-brand-cyan mb-8">Official Designer Outlet Collections</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div onclick="switchTab('product'); filterBrand('Louis Vuitton')" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-brand-pink flex flex-col items-center justify-center group">
+                            <span class="font-display font-black text-2xl tracking-widest text-white group-hover:text-brand-pink transition-colors">LOUIS VUITTON</span>
+                            <span class="text-[10px] text-gray-400 mt-1">Sneakers & Monogram Gear</span>
+                        </div>
+                        <div onclick="switchTab('product'); filterBrand('Gucci')" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-brand-purple flex flex-col items-center justify-center group">
+                            <span class="font-display font-black text-2xl tracking-widest text-white group-hover:text-brand-purple transition-colors">GUCCI</span>
+                            <span class="text-[10px] text-gray-400 mt-1">GG Hoodies & Loafers</span>
+                        </div>
+                        <div onclick="switchTab('product'); filterBrand('Prada')" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-brand-cyan flex flex-col items-center justify-center group">
+                            <span class="font-display font-black text-2xl tracking-widest text-white group-hover:text-brand-cyan transition-colors">PRADA</span>
+                            <span class="text-[10px] text-gray-400 mt-1">Re-Nylon & Cloudbust</span>
+                        </div>
+                        <div onclick="switchTab('product'); filterBrand('Chrome Hearts')" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-brand-gold flex flex-col items-center justify-center group">
+                            <span class="font-display font-black text-2xl tracking-widest text-white group-hover:text-brand-gold transition-colors">CHROME HEARTS</span>
+                            <span class="text-[10px] text-gray-400 mt-1">Cross Leather & Tees</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spotlight Deal Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="glass-panel rounded-3xl p-8 lg:p-12 relative overflow-hidden border border-brand-pink/30">
+                    <div class="grid lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-brand-pink text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider">Spotlight Drop</span>
+                            <h2 class="font-display font-black text-3xl sm:text-5xl text-white">LV Trainer High-Top Monogram Sneaker</h2>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Virgil Abloh’s iconic LV Trainer remastered in bold electric accents and premium Italian calfskin. Available in limited size runs at outlet pricing.
+                            </p>
+                            <div class="flex items-center gap-4 pt-2">
+                                <span class="text-3xl font-black text-gradient">$680.00</span>
+                                <span class="text-lg text-gray-500 line-through">$1,350.00</span>
+                                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-2.5 py-1 rounded-lg">Save $670</span>
+                            </div>
+                            <div class="pt-4 flex gap-4">
+                                <button onclick="openQuickView(1)" class="px-6 py-3 rounded-full bg-white text-black font-extrabold text-xs hover:bg-brand-cyan transition-colors">
+                                    <i class="fa-solid fa-eye mr-1.5"></i> Quick View Details
+                                </button>
+                                <button onclick="quickAdd(1)" class="px-6 py-3 rounded-full bg-brand-pink text-white font-extrabold text-xs hover:bg-brand-purple transition-colors shadow-lg shadow-brand-pink/30">
+                                    <i class="fa-solid fa-cart-plus mr-1.5"></i> Add To Cart
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&auto=format&fit=crop&q=80" alt="LV Trainer" class="w-full max-w-md h-80 object-cover rounded-2xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= SECTION 2: PRODUCTS CATALOG PAGE ================= -->
+        <section id="section-product" class="hidden transition-opacity duration-500 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            
+            <!-- Catalog Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-6 border-b border-white/10 gap-4">
+                <div>
+                    <h1 class="font-display font-black text-3xl sm:text-4xl text-gradient">DESIGNER PRODUCTS CATALOG</h1>
+                    <p class="text-gray-400 text-sm mt-1">Browse 100% verified authentic apparel, streetwear & shoes at exclusive outlet rates.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="product-count-badge" class="text-xs font-bold bg-white/10 px-4 py-2 rounded-full border border-white/10 text-brand-cyan">
+                        Showing 8 Items
+                    </span>
+                </div>
+            </div>
+
+            <!-- Filters & Controls Bar -->
+            <div class="glass-panel p-5 rounded-2xl mb-8 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <!-- Search Input -->
+                    <div class="relative">
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Search Keywords</label>
+                        <input type="text" id="catalog-search" oninput="applyFilters()" placeholder="e.g. Hoodie, LV, Sneakers..." class="w-full bg-black/50 border border-white/15 focus:border-brand-pink rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none pl-9">
+                        <i class="fa-solid fa-search absolute left-3 top-8 text-gray-400 text-xs"></i>
+                    </div>
+
+                    <!-- Brand Select Filter -->
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Designer Brand</label>
+                        <select id="filter-brand-select" onchange="applyFilters()" class="w-full bg-black/50 border border-white/15 focus:border-brand-pink rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            <option value="all">All Brands (LV, Gucci, Prada, CH)</option>
+                            <option value="Louis Vuitton">Louis Vuitton</option>
+                            <option value="Gucci">Gucci</option>
+                            <option value="Prada">Prada</option>
+                            <option value="Chrome Hearts">Chrome Hearts</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Category</label>
+                        <select id="filter-category-select" onchange="applyFilters()" class="w-full bg-black/50 border border-white/15 focus:border-brand-pink rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            <option value="all">All Categories</option>
+                            <option value="Shoes">Designer Shoes & Sneakers</option>
+                            <option value="Apparel">Apparel & Outerwear</option>
+                            <option value="Accessories">Bags & Accessories</option>
+                            <option value="wishlist">❤️ My Wishlist</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort Price -->
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Sort Order</label>
+                        <select id="filter-sort-select" onchange="applyFilters()" class="w-full bg-black/50 border border-white/15 focus:border-brand-pink rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            <option value="featured">Featured / Best Discounts</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Top Rated (5 Stars)</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Quick Category Pill Shortcut -->
+                <div class="pt-2 flex flex-wrap items-center gap-2 border-t border-white/5">
+                    <span class="text-xs font-bold text-gray-400 mr-2">Quick Tags:</span>
+                    <button onclick="quickFilter('all')" class="px-3 py-1 rounded-full text-xs font-semibold bg-brand-pink text-white">All Items</button>
+                    <button onclick="quickFilter('Shoes')" class="px-3 py-1 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-gray-300">👟 Shoes Only</button>
+                    <button onclick="quickFilter('Apparel')" class="px-3 py-1 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-gray-300">🧥 Clothes & Jackets</button>
+                    <button onclick="quickFilter('Chrome Hearts')" class="px-3 py-1 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-gray-300">⚡ Chrome Hearts</button>
+                    <button onclick="quickFilter('Louis Vuitton')" class="px-3 py-1 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-gray-300">👜 Louis Vuitton</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="no-products-view" class="hidden text-center py-20 glass-panel rounded-3xl">
+                <i class="fa-solid fa-ghost text-5xl text-brand-pink mb-4 animate-bounce"></i>
+                <h3 class="font-display font-bold text-2xl text-white">No Luxury Pieces Match Your Filter</h3>
+                <p class="text-gray-400 text-sm mt-1">Try resetting your brand, search keyword, or category filter.</p>
+                <button onclick="resetFilters()" class="mt-6 px-6 py-2.5 rounded-full bg-brand-cyan text-black font-extrabold text-xs">Reset All Filters</button>
+            </div>
+
+        </section>
+
+
+        <!-- ================= SECTION 3: STYLE & BRAND LOOKBOOK PAGE ================= -->
+        <section id="section-style" class="hidden transition-opacity duration-500 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-cyan text-xs font-black uppercase tracking-[0.3em]">Curated High-Fashion Outfits</span>
+                <h1 class="font-display font-black text-4xl sm:text-5xl text-gradient mt-2">LUXURY STYLE LOOKBOOK</h1>
+                <p class="text-gray-300 text-sm mt-3">See how top fashion influencers and celebrity stylists pair Chrome Hearts jackets, LV Trainers, and Gucci hoodies.</p>
+            </div>
+
+            <!-- Vibe Matcher Interactive Selector -->
+            <div class="glass-panel p-6 rounded-3xl mb-12 border border-brand-purple/30">
+                <h3 class="font-display font-bold text-lg text-center mb-4 text-white"><i class="fa-solid fa-wand-magic-sparkles text-brand-pink mr-2"></i> Select Your Aesthetic Vibe</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <button onclick="filterStyleVibe('cyber')" class="lookbook-vibe-btn glass-card p-4 rounded-2xl text-center border hover:border-brand-pink transition-all active-vibe">
+                        <i class="fa-solid fa-microchip text-2xl text-brand-cyan mb-2"></i>
+                        <h4 class="font-bold text-sm text-white">Cyber Luxe</h4>
+                        <p class="text-[10px] text-gray-400">High-tech futuristic sneakers & neon accents</p>
+                    </button>
+                    <button onclick="filterStyleVibe('gothic')" class="lookbook-vibe-btn glass-card p-4 rounded-2xl text-center border hover:border-brand-gold transition-all">
+                        <i class="fa-solid fa-cross text-2xl text-brand-gold mb-2"></i>
+                        <h4 class="font-bold text-sm text-white">Gothic Streetwear</h4>
+                        <p class="text-[10px] text-gray-400">Chrome Hearts heavy leather & silver crosses</p>
+                    </button>
+                    <button onclick="filterStyleVibe('monogram')" class="lookbook-vibe-btn glass-card p-4 rounded-2xl text-center border hover:border-brand-purple transition-all">
+                        <i class="fa-solid fa-crown text-2xl text-brand-purple mb-2"></i>
+                        <h4 class="font-bold text-sm text-white">Monogram Royalty</h4>
+                        <p class="text-[10px] text-gray-400">LV print graphics & iconic Gucci hoodies</p>
+                    </button>
+                    <button onclick="filterStyleVibe('minimal')" class="lookbook-vibe-btn glass-card p-4 rounded-2xl text-center border hover:border-white transition-all">
+                        <i class="fa-solid fa-vest text-2xl text-white mb-2"></i>
+                        <h4 class="font-bold text-sm text-white">Prada Minimalist</h4>
+                        <p class="text-[10px] text-gray-400">Clean re-nylon silhouettes & sleek loafers</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lookbook Outfits Cards Grid -->
+            <div id="lookbook-grid" class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Look 1 -->
+                <div class="lookbook-item cyber gothic glass-panel rounded-3xl overflow-hidden border border-white/10 flex flex-col lg:flex-row">
+                    <div class="lg:w-1/2 relative h-80 lg:h-auto">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80" alt="Look 1" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-brand-pink text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider">Look #01</span>
+                    </div>
+                    <div class="lg:w-1/2 p-6 flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs text-brand-cyan font-bold uppercase tracking-wider">The Midnight Rebel Fit</span>
+                            <h3 class="font-display font-black text-2xl text-white mt-1">Chrome Hearts Biker + LV Trainers</h3>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                                Pair the heavy-weight sterling cross leather jacket with crisp high-top LV Trainers for an unbeatable nightlife fit.
+                            </p>
+                        </div>
+                        <div class="space-y-2 border-t border-white/10 pt-4">
+                            <p class="text-[11px] font-bold text-gray-400 uppercase">Items Featured In This Look:</p>
+                            <div class="flex items-center justify-between text-xs glass-card p-2 rounded-xl">
+                                <span>⚡ Chrome Hearts Biker Jacket</span>
+                                <span class="font-bold text-brand-pink">$1,450.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs glass-card p-2 rounded-xl">
+                                <span>👟 LV Trainer High-Top</span>
+                                <span class="font-bold text-brand-cyan">$680.00</span>
+                            </div>
+                        </div>
+                        <button onclick="shopTheLook([1, 2])" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-pink to-brand-purple text-white font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-md">
+                            <i class="fa-solid fa-cart-arrow-down mr-1"></i> Add Bundle To Cart (Save Extra 5%)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Look 2 -->
+                <div class="lookbook-item monogram minimal glass-panel rounded-3xl overflow-hidden border border-white/10 flex flex-col lg:flex-row">
+                    <div class="lg:w-1/2 relative h-80 lg:h-auto">
+                        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&auto=format&fit=crop&q=80" alt="Look 2" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-brand-purple text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider">Look #02</span>
+                    </div>
+                    <div class="lg:w-1/2 p-6 flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs text-brand-gold font-bold uppercase tracking-wider">Monogram Royalty Fit</span>
+                            <h3 class="font-display font-black text-2xl text-white mt-1">Gucci Oversized Hoodie + Prada Cloudbust</h3>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                                Ultimate cozy luxury. Combine the classic GG Monogram knit hoodie with futuristic Prada tech sneakers.
+                            </p>
+                        </div>
+                        <div class="space-y-2 border-t border-white/10 pt-4">
+                            <p class="text-[11px] font-bold text-gray-400 uppercase">Items Featured In This Look:</p>
+                            <div class="flex items-center justify-between text-xs glass-card p-2 rounded-xl">
+                                <span>🧥 Gucci GG Monogram Hoodie</span>
+                                <span class="font-bold text-brand-gold">$720.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs glass-card p-2 rounded-xl">
+                                <span>👟 Prada Cloudbust Sneakers</span>
+                                <span class="font-bold text-brand-cyan">$690.00</span>
+                            </div>
+                        </div>
+                        <button onclick="shopTheLook([3, 4])" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-purple to-brand-cyan text-white font-extrabold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-md">
+                            <i class="fa-solid fa-cart-arrow-down mr-1"></i> Add Bundle To Cart (Save Extra 5%)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= SHOPPING CART SLIDE-IN DRAWER ================= -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    
+    <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0d0a1d] border-l border-white/10 z-50 translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Drawer Header -->
+        <div class="p-6 border-b border-white/10 flex items-center justify-between glass-panel">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-brand-pink text-xl"></i>
+                <h2 class="font-display font-black text-lg text-white">Your Shopping Cart</h2>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="p-2 rounded-full hover:bg-white/10 text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Cart Items Container -->
+        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
+            <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Cart Summary Footer -->
+        <div class="p-6 border-t border-white/10 glass-panel space-y-4">
+            <!-- Promo Code Input -->
+            <div class="flex gap-2">
+                <input type="text" id="promo-code-input" placeholder="Promo Code (e.g. LUXE20)" class="bg-black/50 border border-white/15 focus:border-brand-pink rounded-xl px-3 py-2 text-xs text-white uppercase flex-grow">
+                <button onclick="applyPromoCode()" class="px-4 py-2 bg-white/10 hover:bg-brand-pink text-white font-bold text-xs rounded-xl transition-colors">Apply</button>
+            </div>
+            <div id="promo-message" class="text-[11px] font-bold text-emerald-400 hidden"></div>
+
+            <!-- Price Calculations -->
+            <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between text-gray-400">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-text" class="text-white font-semibold">$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Discount</span>
+                    <span id="cart-discount-text" class="text-brand-pink font-semibold">-$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Express Shipping</span>
+                    <span class="text-emerald-400 font-semibold">FREE</span>
+                </div>
+                <div class="flex justify-between text-base font-black text-white pt-2 border-t border-white/10">
+                    <span>Total</span>
+                    <span id="cart-total-text" class="text-gradient-gold">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button onclick="triggerCheckout()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-brand-pink/30 hover:scale-[1.02] transition-transform">
+                <i class="fa-solid fa-lock mr-2"></i> Secure VIP Checkout
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- ================= QUICK VIEW PRODUCT MODAL ================= -->
+    <div id="quickview-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-3xl rounded-3xl overflow-hidden border border-white/20 relative scale-95 transition-transform duration-300" id="quickview-card">
+            
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-brand-pink transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="quickview-content" class="grid md:grid-cols-2 gap-6 p-6">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================= SUCCESS CHECKOUT TOAST / MODAL ================= -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-panel max-w-md w-full p-8 rounded-3xl text-center space-y-6 border border-brand-pink/40 shadow-2xl">
+            <div class="w-20 h-20 bg-gradient-to-tr from-brand-pink to-brand-cyan rounded-full flex items-center justify-center mx-auto text-3xl text-white shadow-lg shadow-brand-pink/50 animate-bounce">
+                <i class="fa-solid fa-check-double"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold text-brand-cyan uppercase tracking-widest">Order Confirmed #LV-89210</span>
+                <h2 class="font-display font-black text-3xl text-white mt-1">Thank You For Your Order!</h2>
+                <p class="text-xs text-gray-300 mt-2">Your luxury pieces are being prepared by our authenticators and will ship via Express FedEx courier within 24 hours.</p>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-left text-xs space-y-2 border border-white/10">
+                <div class="flex justify-between"><span class="text-gray-400">Status</span><span class="text-emerald-400 font-bold">Payment Verified</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Tracking</span><span class="text-white font-mono">FX-9082-2026-X</span></div>
+            </div>
+            <button onclick="closeCheckoutModal()" class="w-full py-3 rounded-xl bg-brand-pink text-white font-extrabold text-xs uppercase tracking-wider hover:bg-brand-purple transition-colors">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ================= TOAST NOTIFICATION POPUP ================= -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 glass-panel px-5 py-3 rounded-2xl border border-brand-pink/50 flex items-center gap-3 text-white text-xs font-bold shadow-2xl translate-y-20 opacity-0 transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-brand-pink text-base"></i>
+        <span id="toast-message">Item added to cart!</span>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-white/10 mt-20 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-pink to-brand-cyan flex items-center justify-center font-black text-white text-sm">LV</div>
+                    <span class="font-display font-black text-xl text-gradient">LUXEVIBE</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">The world's premier digital outlet for verified authentic Louis Vuitton, Gucci, Prada & Chrome Hearts apparel and footwear.</p>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-sm text-white mb-3 uppercase tracking-wider">Categories</h4>
+                <ul class="text-xs space-y-2 text-gray-400">
+                    <li><a href="#" onclick="switchTab('product'); filterCategory('Shoes')" class="hover:text-brand-pink">Designer Shoes & Sneakers</a></li>
+                    <li><a href="#" onclick="switchTab('product'); filterCategory('Apparel')" class="hover:text-brand-pink">Outerwear & Leather Jackets</a></li>
+                    <li><a href="#" onclick="switchTab('product'); filterCategory('Apparel')" class="hover:text-brand-pink">Monogram Hoodies & Tees</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-sm text-white mb-3 uppercase tracking-wider">Top Brands</h4>
+                <ul class="text-xs space-y-2 text-gray-400">
+                    <li><a href="#" onclick="switchTab('product'); filterBrand('Louis Vuitton')" class="hover:text-brand-cyan">Louis Vuitton Official</a></li>
+                    <li><a href="#" onclick="switchTab('product'); filterBrand('Gucci')" class="hover:text-brand-cyan">Gucci House</a></li>
+                    <li><a href="#" onclick="switchTab('product'); filterBrand('Prada')" class="hover:text-brand-cyan">Prada Milano</a></li>
+                    <li><a href="#" onclick="switchTab('product'); filterBrand('Chrome Hearts')" class="hover:text-brand-cyan">Chrome Hearts USA</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-display font-bold text-sm text-white mb-3 uppercase tracking-wider">VIP Newsletter</h4>
+                <p class="text-xs text-gray-400 mb-3">Get secret drop links & extra 10% off coupon.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Enter your email" class="bg-black/50 border border-white/15 rounded-xl px-3 py-2 text-xs text-white w-full focus:outline-none focus:border-brand-pink">
+                    <button onclick="showToast('Subscribed to VIP Drops!')" class="px-4 py-2 bg-brand-pink text-white font-bold text-xs rounded-xl hover:bg-brand-purple">Join</button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-8 pt-6 border-t border-white/5 text-center text-[11px] text-gray-500">
+            &copy; 2026 LuxeVibe Outlet Inc. All product names, logos, and brands are property of their respective owners.
+        </div>
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT APP LOGIC ================= -->
+    <script>
+        // MASTER PRODUCTS DATABASE
+        const products = [
+            {
+                id: 1,
+                name: "LV Trainer High-Top Monogram Sneaker",
+                brand: "Louis Vuitton",
+                category: "Shoes",
+                price: 680,
+                oldPrice: 1350,
+                rating: 4.9,
+                reviews: 128,
+                discount: "-50%",
+                image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&auto=format&fit=crop&q=80",
+                description: "Crafted from soft calf leather with embossed Monogram pattern. Designed by Virgil Abloh featuring technical rubber outsole and vivid cyber trim.",
+                sizes: ["EU 40", "EU 41", "EU 42", "EU 43", "EU 44"]
+            },
+            {
+                id: 2,
+                name: "Cross Sterling Leather Biker Jacket",
+                brand: "Chrome Hearts",
+                category: "Apparel",
+                price: 1450,
+                oldPrice: 2800,
+                rating: 5.0,
+                reviews: 89,
+                discount: "-48%",
+                image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800&auto=format&fit=crop&q=80",
+                description: "Heavyweight premium Italian lambskin leather jacket detailed with hand-crafted sterling silver cross hardware and dagger zips.",
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                id: 3,
+                name: "GG Monogram Oversized Heavy Hoodie",
+                brand: "Gucci",
+                category: "Apparel",
+                price: 720,
+                oldPrice: 1250,
+                rating: 4.8,
+                reviews: 210,
+                discount: "-42%",
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80",
+                description: "Heavy felted cotton jersey with classic GG jacquard monogram weave across shoulder panels and ribbed neon sleeve cuffs.",
+                sizes: ["XS", "S", "M", "L", "XL"]
+            },
+            {
+                id: 4,
+                name: "Cloudbust Thunder Futuristic Sneakers",
+                brand: "Prada",
+                category: "Shoes",
+                price: 690,
+                oldPrice: 1100,
+                rating: 4.7,
+                reviews: 95,
+                discount: "-37%",
+                image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
+                description: "Sculptural 3D rubber tread outsole with breathable knit upper and signature Prada logo badge detail.",
+                sizes: ["EU 39", "EU 40", "EU 41", "EU 42", "EU 43"]
+            },
+            {
+                id: 5,
+                name: "Sterling Silver Cross Floral Crest Tee",
+                brand: "Chrome Hearts",
+                category: "Apparel",
+                price: 340,
+                oldPrice: 580,
+                rating: 4.9,
+                reviews: 142,
+                discount: "-41%",
+                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80",
+                description: "100% USA heavyweight cotton crewneck T-shirt with signature horseshoe and gothic floral cross print in silver foil.",
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                id: 6,
+                name: "Horizon Monogram Travel Duffle Bag",
+                brand: "Louis Vuitton",
+                category: "Accessories",
+                price: 1200,
+                oldPrice: 2100,
+                rating: 5.0,
+                reviews: 67,
+                discount: "-43%",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80",
+                description: "Iconic Monogram canvas keepall duffle bag with black leather handles, removable shoulder strap, and matte padlock hardware.",
+                sizes: ["One Size"]
+            },
+            {
+                id: 7,
+                name: "Horsebit Leather Loafers in Black",
+                brand: "Gucci",
+                category: "Shoes",
+                price: 540,
+                oldPrice: 920,
+                rating: 4.8,
+                reviews: 115,
+                discount: "-41%",
+                image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=800&auto=format&fit=crop&q=80",
+                description: "Timeless Italian leather loafers completed with brass horsebit hardware and low stacked heel.",
+                sizes: ["EU 40", "EU 41", "EU 42", "EU 43", "EU 44"]
+            },
+            {
+                id: 8,
+                name: "Re-Nylon Padded Triangle Bomber Jacket",
+                brand: "Prada",
+                category: "Apparel",
+                price: 1150,
+                oldPrice: 1980,
+                rating: 4.9,
+                reviews: 83,
+                discount: "-42%",
+                image: "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop&q=80",
+                description: "Sustainably produced regenerated nylon bomber jacket featuring enamel triangle logo chest patch and heavy goose down insulation.",
+                sizes: ["S", "M", "L"]
+            }
+        ];
+
+        // APP STATE
+        let cart = [];
+        let wishlist = [];
+        let activeDiscountRate = 0;
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderProducts(products);
+            updateCartUI();
+        };
+
+        // NAVIGATION TAB SWITCHER
+        function switchTab(tabId) {
+            const sections = ['index', 'product', 'style'];
+            sections.forEach(s => {
+                const sec = document.getElementById(`section-${s}`);
+                const btn = document.getElementById(`nav-${s}`);
+                if (s === tabId) {
+                    sec.classList.remove('hidden');
+                    sec.classList.add('block');
+                    if (btn) {
+                        btn.className = "nav-btn px-5 py-2 rounded-full font-semibold text-sm transition-all text-white bg-gradient-to-r from-brand-pink to-brand-purple shadow-md shadow-brand-pink/20";
+                    }
+                } else {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('block');
+                    if (btn) {
+                        btn.className = "nav-btn px-5 py-2 rounded-full font-semibold text-sm transition-all text-gray-300 hover:text-white hover:bg-white/10";
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // RENDER PRODUCTS GRID
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            const noProducts = document.getElementById('no-products-view');
+            const countBadge = document.getElementById('product-count-badge');
+
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                noProducts.classList.remove('hidden');
+                countBadge.innerText = '0 Items Found';
+                return;
+            }
+
+            noProducts.classList.add('hidden');
+            countBadge.innerText = `Showing ${items.length} Luxury Items`;
+
+            grid.innerHTML = items.map(p => {
+                const isWishlisted = wishlist.includes(p.id);
+                return `
+                    <div class="glass-card rounded-2xl overflow-hidden relative flex flex-col justify-between group">
+                        
+                        <!-- Discount Tag -->
+                        <span class="absolute top-3 left-3 bg-brand-pink text-white font-extrabold text-[10px] px-2.5 py-1 rounded-full z-10 shadow-lg shadow-brand-pink/40">
+                            ${p.discount}
+                        </span>
+
+                        <!-- Wishlist Button -->
+                        <button onclick="toggleWishlist(${p.id})" class="absolute top-3 right-3 w-8 h-8 rounded-full glass-panel flex items-center justify-center text-xs z-10 transition-transform active:scale-125 ${isWishlisted ? 'text-brand-pink' : 'text-gray-300 hover:text-white'}">
+                            <i class="fa-${isWishlisted ? 'solid' : 'regular'} fa-heart"></i>
+                        </button>
+
+                        <!-- Product Image -->
+                        <div class="relative h-64 overflow-hidden bg-black/40 cursor-pointer" onclick="openQuickView(${p.id})">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#130f26] via-transparent to-transparent opacity-60"></div>
+                            
+                            <!-- Hover Quick View Overlay Button -->
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                                <span class="px-4 py-2 rounded-full glass-panel text-white font-bold text-xs border border-white/30">
+                                    <i class="fa-solid fa-eye mr-1"></i> Quick View
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Info Area -->
+                        <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-brand-cyan">${p.brand}</span>
+                                    <div class="flex items-center text-xs text-brand-gold">
+                                        <i class="fa-solid fa-star mr-1"></i>
+                                        <span class="font-bold text-white text-[11px]">${p.rating}</span>
+                                        <span class="text-gray-400 text-[10px] ml-1">(${p.reviews})</span>
+                                    </div>
+                                </div>
+                                <h3 onclick="openQuickView(${p.id})" class="font-display font-bold text-sm text-white mt-1 line-clamp-1 hover:text-brand-pink cursor-pointer transition-colors">${p.name}</h3>
+                            </div>
+
+                            <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-gray-400 line-through block font-mono">$${p.oldPrice}.00</span>
+                                    <span class="text-lg font-black text-brand-pink font-mono">$${p.price}.00</span>
+                                </div>
+                                <button onclick="quickAdd(${p.id})" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-gradient-to-r hover:from-brand-pink hover:to-brand-purple text-white text-xs font-bold transition-all shadow-md">
+                                    <i class="fa-solid fa-plus mr-1"></i> Add
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // FILTER & SEARCH HANDLERS
+        function applyFilters() {
+            const searchQuery = document.getElementById('catalog-search').value.toLowerCase();
+            const selectedBrand = document.getElementById('filter-brand-select').value;
+            const selectedCategory = document.getElementById('filter-category-select').value;
+            const sortOrder = document.getElementById('filter-sort-select').value;
+
+            let filtered = products.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.brand.toLowerCase().includes(searchQuery);
+                const matchesBrand = selectedBrand === 'all' || p.brand === selectedBrand;
+                
+                let matchesCat = true;
+                if (selectedCategory === 'wishlist') {
+                    matchesCat = wishlist.includes(p.id);
+                } else if (selectedCategory !== 'all') {
+                    matchesCat = p.category === selectedCategory;
+                }
+
+                return matchesSearch && matchesBrand && matchesCat;
+            });
+
+            // Apply Sort
+            if (sortOrder === 'price-low') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortOrder === 'price-high') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortOrder === 'rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            renderProducts(filtered);
+        }
+
+        function handleHeaderSearch(query) {
+            switchTab('product');
+            document.getElementById('catalog-search').value = query;
+            applyFilters();
+        }
+
+        function filterBrand(brandName) {
+            document.getElementById('filter-brand-select').value = brandName;
+            applyFilters();
+        }
+
+        function filterCategory(categoryName) {
+            document.getElementById('filter-category-select').value = categoryName;
+            applyFilters();
+        }
+
+        function quickFilter(type) {
+            if (['Shoes', 'Apparel'].includes(type)) {
+                filterCategory(type);
+                document.getElementById('filter-brand-select').value = 'all';
+            } else if (['Chrome Hearts', 'Louis Vuitton'].includes(type)) {
+                filterBrand(type);
+                document.getElementById('filter-category-select').value = 'all';
+            } else {
+                resetFilters();
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('catalog-search').value = '';
+            document.getElementById('filter-brand-select').value = 'all';
+            document.getElementById('filter-category-select').value = 'all';
+            document.getElementById('filter-sort-select').value = 'featured';
+            renderProducts(products);
+        }
+
+        // WISHLIST LOGIC
+        function toggleWishlist(id) {
+            const idx = wishlist.indexOf(id);
+            if (idx > -1) {
+                wishlist.splice(idx, 1);
+                showToast("Removed from Wishlist");
+            } else {
+                wishlist.push(id);
+                showToast("Saved to Wishlist ❤️");
+            }
+            
+            // Update counter
+            const counter = document.getElementById('wishlist-counter');
+            if (wishlist.length > 0) {
+                counter.innerText = wishlist.length;
+                counter.classList.remove('hidden');
+            } else {
+                counter.classList.add('hidden');
+            }
+
+            applyFilters();
+        }
+
+        // CART DRAWER LOGIC
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function quickAdd(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(c => c.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand,
+                    price: product.price,
+                    image: product.image,
+                    size: product.sizes[0],
+                    qty: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`Added ${product.brand} piece to Cart!`);
+        }
+
+        function shopTheLook(productIds) {
+            productIds.forEach(id => quickAdd(id));
+            toggleCartDrawer(true);
+        }
+
+        function updateCartQty(id, change) {
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+
+            item.qty += change;
+            if (item.qty <= 0) {
+                cart = cart.filter(c => c.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const counter = document.getElementById('cart-counter');
+            const mobileCounter = document.getElementById('mobile-cart-badge');
+            
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            counter.innerText = totalQty;
+            mobileCounter.innerText = totalQty;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-400 space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-gray-600"></i>
+                        <p class="text-sm font-semibold text-white">Your Cart is Empty</p>
+                        <p class="text-xs">Explore our designer catalog to add grail pieces.</p>
+                        <button onclick="toggleCartDrawer(false); switchTab('product')" class="mt-4 px-5 py-2 rounded-full bg-brand-pink text-white text-xs font-bold">Start Shopping</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="glass-card p-3 rounded-2xl flex items-center gap-3 relative border border-white/10">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl bg-black/40">
+                        <div class="flex-grow min-w-0">
+                            <span class="text-[9px] font-extrabold uppercase text-brand-cyan">${item.brand}</span>
+                            <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
+                            <p class="text-[10px] text-gray-400">Size: <span class="text-white">${item.size}</span></p>
+                            <p class="text-xs font-black text-brand-pink font-mono mt-0.5">$${item.price}.00</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-black/50 px-2 py-1 rounded-xl border border-white/10">
+                            <button onclick="updateCartQty(${item.id}, -1)" class="text-gray-400 hover:text-white text-xs px-1">-</button>
+                            <span class="text-xs font-bold text-white">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.id}, 1)" class="text-gray-400 hover:text-white text-xs px-1">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Calculations
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const discountAmount = subtotal * activeDiscountRate;
+            const finalTotal = subtotal - discountAmount;
+
+            document.getElementById('cart-subtotal-text').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-discount-text').innerText = `-$${discountAmount.toFixed(2)}`;
+            document.getElementById('cart-total-text').innerText = `$${finalTotal.toFixed(2)}`;
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-message');
+
+            if (input === 'LUXE20') {
+                activeDiscountRate = 0.20;
+                msg.innerText = "✓ VIP Promo Applied: Extra 20% OFF!";
+                msg.classList.remove('hidden');
+            } else if (input === 'GRAIL10') {
+                activeDiscountRate = 0.10;
+                msg.innerText = "✓ Promo Applied: Extra 10% OFF!";
+                msg.classList.remove('hidden');
+            } else {
+                msg.innerText = "✕ Invalid Promo Code";
+                msg.classList.remove('hidden');
+                msg.classList.replace('text-emerald-400', 'text-brand-pink');
+                return;
+            }
+            updateCartUI();
+        }
+
+        // QUICK VIEW MODAL
+        function openQuickView(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            const modal = document.getElementById('quickview-modal');
+            const card = document.getElementById('quickview-card');
+            const content = document.getElementById('quickview-content');
+
+            content.innerHTML = `
+                <div class="relative h-80 md:h-full rounded-2xl overflow-hidden bg-black/40">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                    <span class="absolute top-3 left-3 bg-brand-pink text-white font-extrabold text-xs px-3 py-1 rounded-full">${p.discount}</span>
+                </div>
+                <div class="flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="text-xs font-black uppercase text-brand-cyan tracking-wider">${p.brand}</span>
+                        <h2 class="font-display font-black text-2xl text-white mt-1">${p.name}</h2>
+                        <div class="flex items-center gap-2 mt-2">
+                            <div class="text-brand-gold text-xs">
+                                <i class="fa-solid fa-star"></i> <span class="font-bold text-white">${p.rating}</span>
+                            </div>
+                            <span class="text-gray-500 text-xs">• ${p.reviews} Verified Customer Reviews</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mt-3 leading-relaxed">${p.description}</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Select Size</label>
+                            <div class="flex flex-wrap gap-2">
+                                ${p.sizes.map((s, idx) => `
+                                    <button class="px-3 py-1.5 rounded-xl border border-white/20 text-xs font-bold hover:border-brand-pink hover:bg-brand-pink/20 transition-all ${idx === 0 ? 'bg-brand-pink text-white border-brand-pink' : 'text-gray-300'}">${s}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                            <div>
+                                <span class="text-xs text-gray-500 line-through block font-mono">$${p.oldPrice}.00</span>
+                                <span class="text-2xl font-black text-brand-pink font-mono">$${p.price}.00</span>
+                            </div>
+                            <button onclick="quickAdd(${p.id}); closeQuickView()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-pink to-brand-purple text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-brand-pink/30 hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Add To Bag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickview-modal');
+            const card = document.getElementById('quickview-card');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.add('scale-95');
+        }
+
+        // CHECKOUT FLOW & CONFETTI
+        function triggerCheckout() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            toggleCartDrawer(false);
+            
+            // Fire Confetti Effect
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            // Reset cart
+            cart = [];
+            updateCartUI();
+
+            // Show Checkout Confirmation
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // LOOKBOOK VIBE FILTER
+        function filterStyleVibe(vibe) {
+            const items = document.querySelectorAll('.lookbook-item');
+            items.forEach(item => {
+                if (item.classList.contains(vibe)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // TOAST NOTIFIER
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const msgSpan = document.getElementById('toast-message');
+            msgSpan.innerText = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
